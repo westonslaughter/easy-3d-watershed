@@ -1,0 +1,3 @@
+* easy-3d-watershed
+** Intro
+this repo contains scripts and documents to guide the user through the process of creating a 3d model of a watershed, as well as instructions for users with access to Duke University's pritning facilities to be able to print their watershed model.
