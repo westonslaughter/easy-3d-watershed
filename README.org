@@ -1,3 +1,77 @@
 * easy-3d-watershed
 ** Intro
-this repo contains scripts and documents to guide the user through the process of creating a 3d model of a watershed, as well as instructions for users with access to Duke University's pritning facilities to be able to print their watershed model.
+this repo contains scripts and documents to guide the user through the process of creating a 3d model of a watershed, as well as instructions for users with access to Duke University's printing facilities to be able to print their watershed model.
+
+* Walkthrough
+This document walks through the process of creating a 3D model of a watershed, as well as printing it in one of Duke's 3D printers.
+
+Current Requirements:
+- *USGS HUC10 watershed* ID for watershed of interest
+- *Google Earth Engine* Code Editor Access (application necessary, but usually applications are accepted instantly)
+- *meshlab* software
+- *QGIS* software
+  - and QGIS plugin, *DEMto3D*
+
+** Step 1: Google Earth Engine
+If you don't already have access, sign up at [[https://signup.earthengine.google.com/#!/][Google Earth Engine's website.]] Once you have access, open up the [[https://code.earthengine.google.com/][GEE code editor]]. Now, copy all of the contents of the script from this repo, located at **~/GEE/watershed_dem.js** and paste it into a new script in the code editor.
+
+Once it is pasted, click **RUN** (1). Your watershed should, maybe after a little bit of time (0-2 minutes), appear on the map where it supposed to be, with a black and white elevation raster image clipped to the watershed outline. The **Tasks** (2) tab in the right pane of the code editor should also, after a little time, be orange- click this tab.\
+
+[[./img/gee_interface_buttons.svg]]
+
+Here, you should see a task called *watershed_elevation*, next to a button that says **run**. Click this    ,
+[[./img/tasks.svg]]
+Next, a popup will appear, click run here as well- the defaults should look like below, which should work fine.
+
+[[./img/tasks_popup.svg]]
+
+You may have to wait a little while, depending on the size of your watershed. If you stuck with a HUC10, it should run in roughly 2-8 minutes, but mileage may vary.  When it is done, the task will report itself as complete. Click to unfold the task, click **open in drive** which will open the google drive for whatever google account you are using for earth engine access.
+
+At this point, you should have a file of the same name, *watershed_elevation.tif*, in your google drive- download this file, and, go to the QGIS section of this walkthrough.
+
+** Step 2: QGIS
+you can download QGIS for free [[https://www.qgis.org/en/site/][here]]. Once downloaded, open the program, and then drag and drop your downloaded *tif* into the application.
+
+[[./img/qgis_start.svg]]
+
+Then download the [[https://github.com/jawensi/DEMto3D-QGIS-Plugin][DEMto3D]] plugin for QGIS. TO do this, click the **plugins** tab in the upper toolbar (1). Then, click manage and install plugins. After this, use the searchbar to find **DEMto3D**, and download.
+
+[[./img/qgis_plugins.svg]]
+
+You maye need to restart QGIS for the new plugin to work. Once working, navigate to the **raster** tab in the upper toolbar. Click the *DEMto3D* option, and then click *DEMto3D printing* option. This will open a popup menu. First, make sure that the field in "Layer to print" is the layer you want to print (1). Then, click the second of the three small buttons below "Print Extent", this will automatically fill the extent with your layer's extent (2).
+
+Then, it is advised to set your "spacing" value to *0.2* (3). It is possible to do a smaller (more detailed) value- but in the case of Duke's 3D printing system, the chances are high this will produce an STL file that is far too large (the limit is approximately 50MB). You can use increasing this value to lower the file size if that is an issue for your desired watershed.
+
+Next, specify the width (4). In general, for small watersheds, 150 is a safe value to make a good sized model that will fit in the printer. However, every watershed is different, and increasing and decreasing this value may come down to trial and error.
+
+Then, specify the height (5). I set the height to 0, this is to reduce ennecessary plastic use. A user can make this value higher if they want a higher base.
+
+After all of these values are set, click **export to STL** (6). This will convert your DEM to a 3-D STL file.
+
+[[./img/demto3d.svg]]
+
+** Step 3: 3D Printing
+
+**note** this tutorial is inspired by [[https://www.instructables.com/3D-Printing-for-FYD/][this original guide]] if you find this tutorial confusing, or, it is incomplete, use this guide instead
+
+Once you have your STL file, head to [[https://duke.3dprinteros.com/#/][DukeOS 3D printing]]. Sign in with your Duke credentials.
+
+Once you are in, click the *Add Files* button in the upper right (1). Then, make sure that your file is about 50MB or under (2). Then, click *Layout* (3)
+
+
+[[./img/3D_OS.svg]]
+
+THen, the layout popup will appear- here, you should see your 3D model. If your file is just a little over 50MB, click "load anyway" in the warning- it may still work and be able to print if its not too much over (though, it will load slowly to visualize in the layout and slice popup windows). Then, in this window- click *Center* (1) and *On Bed* (2). If everything is looking good, click *Slice* (3)
+
+
+[[./img/3D_OS_layout.svg]]
+
+The Slice popup should appear. Unless there is reason to do otherwise, accept the defaults, and click *Slice*. This will create a gcode file from your model, this is the file type used by Duke's 3D printers to create your model. Now, before printing- go to the *Printers* tab, and look for a printer that has the following qualities:
+    - is in desired building (1)
+    - has enough plastic to print your model, and, is a desireable color (2)
+    - open queue (3)
+    - has successfully printed a job in hte last day, the more recent the better, and the less failed print jobs in recent history the better as well (4)
+
+[[./img/printer_choice.svg]]
+
+When the gcode file is ready, click the orange *Print* button.
