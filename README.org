@@ -74,4 +74,6 @@ The Slice popup should appear. Unless there is reason to do otherwise, accept th
 
 [[./img/printer_choice.svg]]
 
-When the gcode file is ready, click the orange *Print* button.
+When the gcode file is ready, click the orange *Print* button. Select the printer you identified as the best for your job. When you start the print job, you hsould get a pop up window. It should look like below with the same or very similar readouts. If the printer is working correctly, you should see it start to heat up (1) fairly quickly after the print job starts. If everything goes well, your watershed model is on the way! You can now just let the printer do its work. Check in on your job in about 30 minutes, the *Extruder* and the *Heated Bed* should be fully heated up, and started or about to start in on actual printing. It's worth continun to check in on your job to make sure it is still pritning, as errors do occur.
+
+When your job is done, go to the space you printed in. If you print to TEC, as we do, your model should be in your printer, or on the table in the front hall with other finished jobs. Congratulations! thanks for using our tutorial, and please- send any feedback to the authors, @westonslaugher and @spencerrhea. Feel free to submit an issue or pull request as well if you have additions to hte project.
