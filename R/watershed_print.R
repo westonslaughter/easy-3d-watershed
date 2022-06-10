@@ -5,7 +5,7 @@ library(nhdplusTools)
 library(sf)
 
 # Get watershed Boundary from NHD
-start_point <- st_sfc(st_point(c(-97.789594, 30.351957)), crs = 4269)
+start_point <- st_sfc(st_point(c(-97.785577, 30.352227)), crs = 4269)
 start_comid <- discover_nhdplus_id(start_point)
 
 flowline <- navigate_nldi(list(featureSource = "comid", 
@@ -25,7 +25,7 @@ watershed <- subset$CatchmentSP %>%
     st_as_sf()
 
 # Get DEM and mask
-dem <- elevatr::get_elev_raster(watershed, z = 11)
+dem <- elevatr::get_elev_raster(watershed, z = 9)
 croped <- raster::crop(dem, watershed)
 mask <- raster::mask(croped, watershed)
 min_val <- min(raster::values(mask), na.rm = TRUE)
@@ -35,6 +35,13 @@ raster::values(mask) <- raster::values(mask) - min_val
 
 # Make rayshader matrix
 mask = raster_to_matrix(mask)
+
+rgl::clear3d()
+mask %>%
+    sphere_shade() %>%
+    plot_3d(mask, zscale = 9) 
+rgl::rglwidget()
+
 
 # Save as stl
 mask %>%
